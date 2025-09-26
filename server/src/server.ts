@@ -1,9 +1,8 @@
 import express from "express";
 import request, { Response} from "request";
-import { createUsers } from "./controllers/createUsers.controller.js";
 import dotenv from "dotenv"
 import axios from "axios"
-import { spotifyResponse } from "./controllers/spotifyResponse.controller.js";
+import { router } from "./routes/routes.js";
 
 dotenv.config()
 
@@ -14,7 +13,7 @@ const PORT = 5000;
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-let token: string;
+let token: string; 
 
 const authOptions = {
   url: 'https://accounts.spotify.com/api/token',
@@ -37,9 +36,7 @@ request.post(authOptions, function(error: any, response: Response, body: { acces
   }
 });
 
-app.get("/search/:query", spotifyResponse)
-
-app.post("/create-account", createUsers)
+app.use("/", router)
 
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}/`);
