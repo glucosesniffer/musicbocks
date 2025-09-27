@@ -1,10 +1,11 @@
 import express from "express"
 import { artistResponse } from "../controllers/artistResponse.js"
 import { createUsers } from "../controllers/createUsers.controller.js"
+import { Request, Response } from "express";
 
 export const router = express.Router()
 
 
-router.get("/search/:query", artistResponse)
+router.get("/search/:query", artistResponse, (req:Request,res:Response)=> res.json("no results"))
 
 router.post("/create-account", createUsers)
