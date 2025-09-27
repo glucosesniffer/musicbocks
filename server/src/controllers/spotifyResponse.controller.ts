@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import pool from "../config/db.js";
 
-interface AxiosResponse{
+interface AxiosResponse{   //this is an ugly fucking way to declare types please ignore
   tracks: {
     items: {
       album: {
@@ -23,8 +23,10 @@ export const spotifyResponse = async(req:Request, res: Response) => {
   
   try {
     const spotifyResponse = await axios.get<AxiosResponse>(`https://api.spotify.com/v1/search?q=${encodeURIComponent(searchQuery)}&type=artist,album,track`);
-    const artistName = spotifyResponse.data.tracks.items[0].album.artists[0].name
-    const artistId = spotifyResponse.data.tracks.items[0].album.artists[0].id
+    const queryText = spotifyResponse.data.tracks.items[0].album.artists[0]
+    const artistName = queryText.name
+    const artistId = queryText.id
+
     const checkDBForArtist = await pool.query(`SELECT * FROM artists WHERE name = $1`, [artistName])
 
     if (checkDBForArtist.rows.length === 0) {
