@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import axios from "axios";
 import pool from "../config/db.js";
-import { start } from "repl";
 
 interface AxiosResponse{
   artists:{
@@ -23,11 +22,11 @@ export const artistResponse = async(req:Request, res: Response) => {
   
   try {
     const spotifyResponse = await axios.get<AxiosResponse>(`https://api.spotify.com/v1/search?q=${encodeURIComponent(searchQuery)}&type=artist`);
-    const startingQueryText = spotifyResponse.data.artists.items[0]
-    const artistName = startingQueryText.name
-    const artistId = startingQueryText.id
-    const artistImage = startingQueryText.images[0].url
-    const artistGenre = startingQueryText.genres[0]
+    const firstArtist = spotifyResponse.data.artists?.items[0]
+    const artistName = firstArtist.name
+    const artistId = firstArtist.id
+    const artistImage = firstArtist.images[0].url
+    const artistGenre = firstArtist.genres[0]
     const checkDBForArtist = await pool.query(`SELECT * FROM artists WHERE name = $1`, [artistName])
 
     if (checkDBForArtist.rows.length === 0) {
