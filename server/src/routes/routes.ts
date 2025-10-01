@@ -9,4 +9,6 @@ export const router = express.Router()
 
 router.get("/search/:query", artistResponse, (req:Request,res:Response)=> res.json("no results"))
 
+router.get('/artist/:query', albumResponse)
+
 router.post("/create-account", createUsers)

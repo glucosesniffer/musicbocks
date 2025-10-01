@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import axios from "axios";
 import pool from "../config/db.js";
+import { artistResponse } from "./artistResponse.js";
+import { NextFunction } from "express";
 
 interface AxiosResponse{
   albums:{
@@ -19,7 +21,7 @@ interface AxiosResponse{
   };
 }
 
-export const albumResponse = async(req:Request, res: Response) => {
+export const albumResponse = async(req:Request, res: Response, next: NextFunction) => {
   let albumsArr: {name: string; year:string; image: string; spotify_id: string}[] = [];
   const searchQuery = req.params.query;
   const insertedAlbums = [];
@@ -49,6 +51,9 @@ export const albumResponse = async(req:Request, res: Response) => {
 
     if (results.rows.length > 0) {
     insertedAlbums.push(results.rows[0]);
+    }
+    else{
+      return artistResponse(req, res, next)
     }
     }
     res.json(insertedAlbums)

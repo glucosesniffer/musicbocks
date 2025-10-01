@@ -15,7 +15,7 @@ interface AxiosResponse{
   };
 }
 
-export const artistResponse = async(req:Request, res: Response) => {
+export const artistResponse = async(req: Request, res: Response, next: any) => {
   let artistRow;
   
   const searchQuery = req.params.query;
