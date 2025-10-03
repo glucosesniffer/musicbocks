@@ -10,14 +10,18 @@ interface User{
   password: string;
 }
 
-export const createUsers = async(req: Request,res: Response) => {
+export const createUsers = async(req: Request,res: Response): Promise<void> => {
     const {username, email, password} = req.body
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const userNameRegex = /^[a-z0-9]+$/
 
     if(!emailRegex.test(email)){
       res.status(400).json({success:false, message:"Please type valid email"})
       return
+    }
+    if(!userNameRegex.test(username)){
+      res.status(400).json({success:false, message: "Please type valid username"})
     }
 
     if(!email || !username || !password){
