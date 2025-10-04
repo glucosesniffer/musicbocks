@@ -4,6 +4,7 @@ import { albumResponse } from "../controllers/album-response.controller.js"
 import { createUsers } from "../controllers/create-user.controller.js"
 import { Request, Response } from "express";
 import { addReviews } from "../controllers/add-reviews.controller.js"
+import { loginUser } from "../controllers/login.controller.js";
 
 export const router = express.Router()
 
@@ -13,5 +14,7 @@ router.get("/search/:query", artistResponse, (req:Request,res:Response)=> res.js
 router.get('/artist/:query', albumResponse)
 
 router.post("/create-account", createUsers)
+
+router.post('/login', loginUser)
 
 router.post("/review", addReviews)

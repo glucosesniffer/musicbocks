@@ -32,10 +32,10 @@ export const createUsers = async(req: Request,res: Response): Promise<void> => {
         const saltRounds = 10
         const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-        const result = await pool.query<User>("INSERT INTO users(username, email, password) VALUES($1,$2,$3) RETURNING *",
+        await pool.query<User>("INSERT INTO users(username, email, password) VALUES($1,$2,$3) RETURNING *",
             [username, email, hashedPassword]
         )
-        req.session.userId = result.rows[0].id
+
         res.status(200).json({success:true, data: "User created successufully"})
     } catch (error) {
         res.status(500).json({success:false, error: (error as Error).message})
