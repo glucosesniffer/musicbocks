@@ -3,10 +3,24 @@ import request, { Response} from "request";
 import dotenv from "dotenv"
 import axios from "axios"
 import { router } from "./routes/routes.js";
+import session from "express-session";
 
 dotenv.config()
 
+const secret = process.env.SPIRAL_SESSION_TICKET || "jellyfish-fishingshark"
 const app = express();
+
+app.use(session({
+  secret: secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax'
+  }
+}))
+
 app.use(express.json());
 
 const PORT = 5000;
