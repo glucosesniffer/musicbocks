@@ -13,7 +13,7 @@ router.get("/search/:query", artistResponse, (req:Request,res:Response)=> res.js
 
 router.get('/artist/:query', albumResponse)
 
-router.post("/create-account", createUsers)
+router.post("/signup", createUsers)
 
 router.post('/login', loginUser)
 
