@@ -17,4 +17,12 @@ router.post("/create-account", createUsers)
 
 router.post('/login', loginUser)
 
+router.delete('/logout', (req: Request, res: Response)=>{
+    req.session.destroy((err)=>{
+        if(err) return res.json({success:false})
+        res.clearCookie("connect.sid");
+        res.json({success:true, message: "logged out"})
+    })
+})
+
 router.post("/review", addReviews)

@@ -12,13 +12,14 @@ export const loginUser = async(req: Request, res: Response): Promise<void> => {
 
         if(passwordMatch){
             req.session.userId = storedPass.rows[0].id
-            if(req.session.userId){
-                const username = await pool.query("SELECT * FROM users where id=$1", [req.session.userId])
-                res.json({success:true, data: username.rows[0].username})
-            }
         }
         else{
             res.json({success:false, data: "wrong password"})
+        }
+
+        if(req.session.userId){
+            const username = await pool.query("SELECT * FROM users where id=$1", [req.session.userId])
+            res.json({success:true, data: username.rows[0].username})
         }
     }
     catch(e){
