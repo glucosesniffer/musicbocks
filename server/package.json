@@ -8,10 +8,12 @@
   "dependencies": {
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
+    "connect-redis": "^9.0.0",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "pg": "^8.16.3",
+    "redis": "^5.8.3",
     "request": "^2.88.2"
   },
   "devDependencies": {

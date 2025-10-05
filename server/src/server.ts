@@ -4,22 +4,51 @@ import dotenv from "dotenv"
 import axios from "axios"
 import { router } from "./routes/routes.js";
 import session from "express-session";
+import { RedisStore } from "connect-redis";
 
 dotenv.config()
 
 const secret = process.env.SPIRAL_SESSION_TICKET || "jellyfish-fishingshark"
 const app = express();
+import { createClient } from 'redis';
 
-app.use(session({
-  secret: secret,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'lax'
-  }
-}))
+const client = createClient({
+    username: 'default',
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: 'redis-17931.c212.ap-south-1-1.ec2.redns.redis-cloud.com',
+        port: 17931
+    }
+});
+
+client.on('error', err => console.log('Redis Client Error', err));
+
+await client.connect();
+
+const redisStore = new RedisStore({
+  client,
+  prefix: "sess:",
+}) as unknown as session.Store;
+
+await client.set('foo', 'bar');
+const result = await client.get('foo');
+console.log(result) 
+
+
+app.use(
+  session({
+    store: redisStore,  
+    secret: secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, 
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24, 
+    },
+  })
+);
 
 app.use(express.json());
 
