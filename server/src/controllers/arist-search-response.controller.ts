@@ -41,7 +41,7 @@ export const artistResponse = async(req: Request, res: Response, next: any) => {
         artistRow = checkDBForArtist.rows[0]
       }
     
-    res.json({id: artistRow.spotify_id, artistName:artistRow.name , artistImageURL: artistRow.image, artistGenre: artistRow.genre});
+    res.json({id: artistRow.id, artistName:artistRow.name , artistImageURL: artistRow.image, artistGenre: artistRow.genre});
   }
   catch(error){
     res.status(500).json({success:false, message: (error as Error).message})

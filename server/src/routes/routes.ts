@@ -1,6 +1,6 @@
 import express from "express"
-import { artistResponse } from "../controllers/arist-response.controller.js"
-import { albumResponse } from "../controllers/album-response.controller.js"
+import { artistResponse } from "../controllers/arist-search-response.controller.js"
+import { albumResponse } from "../controllers/artist-album-response.controller.js"
 import { createUsers } from "../controllers/create-user.controller.js"
 import { Request, Response } from "express";
 import { addReviews } from "../controllers/add-reviews.controller.js"
