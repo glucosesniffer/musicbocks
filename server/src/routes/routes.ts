@@ -5,6 +5,7 @@ import { createUsers } from "../controllers/create-user.controller.js"
 import { Request, Response } from "express";
 import { addReviews } from "../controllers/add-reviews.controller.js"
 import { loginUser } from "../controllers/login.controller.js";
+import { albumInfo } from "../controllers/album-info.controller.js";
 
 export const router = express.Router()
 
@@ -12,6 +13,8 @@ export const router = express.Router()
 router.get("/search/:query", artistResponse, (req:Request,res:Response)=> res.json("no results"))
 
 router.get('/artist/:query', albumResponse)
+
+router.get('/album/:query', albumInfo)
 
 router.post("/signup", createUsers)
 
