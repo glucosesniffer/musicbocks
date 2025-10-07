@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { addReviews } from "../controllers/add-reviews.controller.js"
 import { loginUser } from "../controllers/login.controller.js";
 import { albumInfo } from "../controllers/album-info.controller.js";
+import { mainPage } from "../controllers/main-page.controller.js";
 
 export const router = express.Router()
 
@@ -17,6 +18,8 @@ router.get('/artist/:query', albumResponse)
 router.get('/album/:query', albumInfo)
 
 router.post("/signup", createUsers)
+
+router.get('/', mainPage)
 
 router.post('/login', loginUser)
 
