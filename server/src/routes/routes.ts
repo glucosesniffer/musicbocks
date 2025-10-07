@@ -6,7 +6,6 @@ import { Request, Response } from "express";
 import { addReviews } from "../controllers/add-reviews.controller.js"
 import { loginUser } from "../controllers/login.controller.js";
 import { albumInfo } from "../controllers/album-info.controller.js";
-import { mainPage } from "../controllers/main-page.controller.js";
 
 export const router = express.Router()
 
@@ -20,8 +19,6 @@ router.get('/album/:query', albumInfo)
 router.post("/signup", createUsers)
 
 router.post('/login', loginUser)
-
-router.get('/', mainPage)
 
 router.delete('/logout', (req: Request, res: Response)=>{
     req.session.destroy((err)=>{
