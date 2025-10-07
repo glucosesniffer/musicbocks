@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import axios from "axios";
 import pool from "../config/db.js";
 
-export const albumResponse = async (req: Request, res: Response, next: NextFunction) => {
+export const albumResponse = async (req: Request, res: Response) => {
   const searchQuery = req.params.query;
 
   try {

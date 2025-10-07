@@ -15,7 +15,7 @@ interface AxiosResponse{
   };
 }
 
-export const artistResponse = async(req: Request, res: Response, next: any) => {
+export const artistResponse = async(req: Request, res: Response) => {
   let artistRow;
   
   const searchQuery = req.params.query;
@@ -35,8 +35,8 @@ export const artistResponse = async(req: Request, res: Response, next: any) => {
           [artistId, artistName, artistImage, artistGenre]
         );
         artistRow = insertedRow.rows[0]
-
       }
+
       else{
         artistRow = checkDBForArtist.rows[0]
       }
