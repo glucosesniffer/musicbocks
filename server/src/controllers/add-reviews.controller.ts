@@ -8,7 +8,10 @@ export const addReviews = async(req: Request, res: Response): Promise<void> => {
         if(req.session.userId){
         const result = await pool.query(`INSERT INTO reviews (review, rating, album_id, user_id) 
                                          VALUES ($1, $2, $3, $4) RETURNING *`, [review, rating, album_id, user_id])
-        res.status(200).json({success:true, data: result})
+        res.status(200).json({success:true, data: result.rows})
+        }
+        else{
+            res.status(400).json({success:false, message: "Please login to review!"})
         }
     }
     catch(e){
