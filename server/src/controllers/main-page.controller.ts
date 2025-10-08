@@ -3,7 +3,8 @@ import pool from "../config/db.js";
 
 export const mainPage = async(req: Request, res: Response): Promise<void> => {
     try{
-        res.json({success:true, message: "yay it works!"})
+        const result = await pool.query('SELECT * FROM albums ORDER BY RANDOM() LIMIT 7')
+        res.json({success:true, data: result.rows})
     }
     catch(e){
         res.status(400).json({success:false, e})
