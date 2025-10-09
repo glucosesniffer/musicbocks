@@ -1,14 +1,13 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-export const Navbar = () =>{
+export const Navbar: React.FC = () =>{
    const [query, setQuery] = useState('')
+   const navigate = useNavigate()
 
-   async function handleSearch(e:any){
+   function handleSearch(e: React.FormEvent){
     e.preventDefault()
-    console.log("yes!")
-    const result = await fetch(`http://localhost:5000/search/${encodeURIComponent(query)}`)
-    const data = await result.json()
-    console.log(data)
+    navigate(`search/${encodeURIComponent(query)}`)
 }
 
     return(
