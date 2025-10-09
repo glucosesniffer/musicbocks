@@ -5,12 +5,17 @@ import axios from "axios"
 import { router } from "./routes/routes.js";
 import session from "express-session";
 import { RedisStore } from "connect-redis";
+import cors from "cors";
+
 
 dotenv.config()
 
 const secret = process.env.SPIRAL_SESSION_TICKET || "jellyfish-fishingshark"
 const app = express();
 import { createClient } from 'redis';
+
+
+app.use(cors())
 
 const client = createClient({
     username: 'default',
