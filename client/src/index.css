@@ -30,7 +30,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #121212;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgb(255, 255, 255);
   display: flex;
   flex-direction: column;
 }
