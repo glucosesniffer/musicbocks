@@ -3,6 +3,7 @@ import { MainPage } from './Pages/MainPage'
 import { Navbar } from './components/Navbar' 
 import './index.css'
 import SearchPage from './Pages/SearchPage'
+import { ArtistPage } from './Pages/AristPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Routes>
               <Route path="/" element={<MainPage/>} />
               <Route path="/search/:query" element={<SearchPage/>} />
+              <Route path="/artist/:query" element={<ArtistPage/>}/>
           </Routes> 
       </div>
      </BrowserRouter>
