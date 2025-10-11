@@ -1,4 +1,3 @@
-import { AspectRatio } from "@radix-ui/react-aspect-ratio"
 import { useEffect, useRef, useState } from "react"
 
 export const MainPage: React.FC = () =>{

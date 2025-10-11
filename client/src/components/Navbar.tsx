@@ -12,8 +12,8 @@ export const Navbar: React.FC = () =>{
 
     return(
             <div className="bg-[#000000]">
-                <div className="flex justify-between p-6 w-[950px] mx-auto">
-                <p>logo and stuff</p>
+                <div className="flex flex-row items-center justify-between p-4 w-[950px] mx-auto">
+                <img src="/app-logo.png" className="w-[150px]"></img>
                 <form onSubmit={handleSearch}>
                <ul className="flex space-x-4">
                     <li><a href="" className="!text-white hover:!text-gray-400 transition-colors duration-200 delay-100">Sign in</a></li> 
