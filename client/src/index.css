@@ -9,7 +9,8 @@
   line-height: 1.5;
   font-weight: 400;
 
-  text-align: center;color-scheme: light dark;
+  text-align: center;
+  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
@@ -94,7 +95,11 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
+.btn:focus,
+.btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

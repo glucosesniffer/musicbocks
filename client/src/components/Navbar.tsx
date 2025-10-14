@@ -29,7 +29,7 @@ export const Navbar: React.FC = () => {
           <dialog id="my_modal_3" className="modal">
             <div className="modal-box bg-[#121212] h-[250px]">
               <form method="dialog">
-                <button className="btn btn-xs btn-circle btn-ghost absolute right-2 top-2">
+                <button className="btn btn-xs btn-circle btn-ghost absolute right-2 top-2 ">
                   ✕
                 </button>
               </form>
