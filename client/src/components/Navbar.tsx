@@ -22,7 +22,7 @@ export const Navbar: React.FC = () => {
         <ul className="flex space-x-4">
           <button
             className="btn btn-sm"
-            onClick={() => document.getElementById("my_modal_3").showModal()}
+            onClick={() => document.getElementById("my_modal_3")?.showModal()}
           >
             Login
           </button>
