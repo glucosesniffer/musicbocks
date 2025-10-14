@@ -18,8 +18,15 @@ export const AlbumPage: React.FC = () => {
   }, [id]);
 
   return (
-    <div className="flex mx-auto justify-center items-center">
-      <img src={albumInfo?.image} className="rounded-md w-[250px]"></img>
+    <div className="flex flex-row justify-evenly items-center w-full">
+      <div className="">
+        <img src={albumInfo?.image} className="rounded-md w-[250px]"></img>
+      </div>
+      <div className="flex flex-col items-center">
+        <h1 className="mt-2 font-bold max-w-[500px]">{albumInfo?.title}</h1>
+        <p className="mt-2 text-zinc-400 text-s">Album</p>
+        <p className="text-xs text-zinc-500 mt-1">{albumInfo?.year}</p>
+      </div>
     </div>
   );
 };

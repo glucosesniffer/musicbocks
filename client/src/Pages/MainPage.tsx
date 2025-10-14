@@ -42,7 +42,6 @@ export const MainPage: React.FC = () => {
             <p className="mt-2 cursor-pointer hover:!text-zinc-400 transition-colors duration-200 delay-100 max-w-[240px]">
               {album?.title}
             </p>
-            <p className="text-xs text-zinc-500">{album?.year}</p>
           </div>
         ))}
       </div>
