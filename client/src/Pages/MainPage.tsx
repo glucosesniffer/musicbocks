@@ -19,7 +19,7 @@ export const MainPage: React.FC = () => {
     fetchAlbumforMain();
   }, []);
   function handleNavigate(albumId: number) {
-    navigate(`/album/${albumId}`);
+    navigate(`album/${albumId}`);
   }
 
   return (
