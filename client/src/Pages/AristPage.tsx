@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const ArtistPage: React.FC = () => {
   const { query } = useParams();
   const effect = useRef(false);
+  const navigate = useNavigate();
   const [artistAlbums, setArtistAlbums] = useState([]);
   useEffect(() => {
     if (effect.current) return;
@@ -13,20 +14,29 @@ export const ArtistPage: React.FC = () => {
         `http://localhost:5000/artist/${encodeURIComponent(query)}`
       );
       const data = await res.json();
+      console.log(data);
       setArtistAlbums(data);
     }
     fetchAlbums();
   }, []);
+  function handleNavigate(albumId: number) {
+    navigate(`/album/${albumId}`);
+  }
 
   return (
-    <>
-      <div className="flex flex-row overflow-x-auto space-x-4 p-2">
+    <div className="flex flex-col">
+      <p>Albums for </p>
+      <div className="container mx-auto grid grid-cols-4 gap-6">
         {artistAlbums.map((album) => (
-          <div key={album?.id} className="flex-shrink-0">
+          <div
+            key={album?.id}
+            onClick={() => handleNavigate(album?.id)}
+            className="cursor-pointer hover:outline"
+          >
             <img
               src={album?.image}
               alt={album?.name}
-              className="w-32 h-32 object-cover rounded-md"
+              className="w-full h-full object-cover rounded-md"
             />
             <p className="mt-2 text-center text-sm font-medium">
               {album?.name}
@@ -34,6 +44,6 @@ export const ArtistPage: React.FC = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };

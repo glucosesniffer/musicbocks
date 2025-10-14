@@ -104,7 +104,7 @@ export const Navbar: React.FC = () => {
           <form onSubmit={handleSearch}>
             <li>
               <input
-                className="rounded-xl w-40 p-2 h-8 outline-none bg-[#1F1F1F]"
+                className="rounded-md w-40 p-2 h-8 outline-none bg-[#1F1F1F]"
                 placeholder="search: artist"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
