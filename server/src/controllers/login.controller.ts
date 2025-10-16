@@ -28,7 +28,11 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     if (req.session.userId) {
       await pool.query("SELECT * FROM users where id=$1", [req.session.userId]);
-      res.json({ success: true, data: req.session.userName });
+      res.json({
+        success: true,
+        data: req.session.userName,
+        sessionId: req.sessionID,
+      });
     }
     console.log(req.body);
   } catch (e) {
