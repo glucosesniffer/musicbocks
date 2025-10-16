@@ -30,15 +30,22 @@ export const Navbar: React.FC = () => {
       localStorage.setItem("sessionId", sessionRef.current);
       localStorage.setItem("userName", userRef.current);
       window.location.reload();
-      console.log(res.data);
+      // console.log(res.data);
     } catch (e: any) {
       console.log(e.message);
     }
   }
+  async function handleLogout() {
+    await axios.delete("http://localhost:5000/logout");
+    localStorage.removeItem("sessionId");
+    localStorage.removeItem("userName");
+    window.location.reload();
+  }
+
   useEffect(() => {
     const id = localStorage.getItem("sessionId");
     const username = localStorage.getItem("userName");
-    console.log(id, username);
+    // console.log(id, username);
   }, []);
   return (
     <div className="bg-[#000000]">
@@ -48,7 +55,15 @@ export const Navbar: React.FC = () => {
         </a>
         <ul className="flex space-x-4">
           {localStorage.getItem("sessionId") ? (
-            <p>{localStorage.getItem("userName")}</p>
+            <>
+              <p>{localStorage.getItem("userName")}</p>
+              <p
+                onClick={handleLogout}
+                className="hover:text-gray-400 cursor-pointer"
+              >
+                Logout
+              </p>
+            </>
           ) : (
             <button
               className="btn btn-sm"
