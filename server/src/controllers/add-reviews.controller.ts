@@ -11,7 +11,7 @@ export const addReviews = async (
     user_id,
   }: { review: string; rating: number; album_id: number; user_id: number } =
     req.body;
-
+  console.log(rating, album_id, user_id);
   try {
     if (req.session.userId) {
       const result = await pool.query(

@@ -6,17 +6,24 @@ export const albumResponse = async (req: Request, res: Response) => {
   const searchQuery = req.params.query;
 
   try {
-    let artistResult = await pool.query(`SELECT * FROM artists WHERE name = $1`, [searchQuery]);
+    let artistResult = await pool.query(
+      `SELECT * FROM artists WHERE name = $1`,
+      [searchQuery]
+    );
     let artist = artistResult.rows[0];
 
     if (!artist) {
       const spotifyArtist = await axios.get(
-        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchQuery)}&type=artist&limit=1`
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+          searchQuery
+        )}&type=artist&limit=1`
       );
 
       const foundArtist = spotifyArtist.data.artists.items[0];
       if (!foundArtist) {
-        return res.status(404).json({ success: false, message: "Artist not found" });
+        return res
+          .status(404)
+          .json({ success: false, message: "Artist not found" });
       }
 
       const insertArtist = await pool.query(
@@ -27,7 +34,13 @@ export const albumResponse = async (req: Request, res: Response) => {
         [foundArtist.name, foundArtist.id, foundArtist.images[0]?.url || null]
       );
 
-      artist = insertArtist.rows[0] || (await pool.query(`SELECT * FROM artists WHERE spotify_id = $1`, [foundArtist.id])).rows[0];
+      artist =
+        insertArtist.rows[0] ||
+        (
+          await pool.query(`SELECT * FROM artists WHERE spotify_id = $1`, [
+            foundArtist.id,
+          ])
+        ).rows[0];
     }
 
     let offset = 0;
@@ -48,7 +61,13 @@ export const albumResponse = async (req: Request, res: Response) => {
         `INSERT INTO albums (spotify_id, title, year, image, artist_id)
          VALUES ($1, $2, $3, $4, $5)
          ON CONFLICT (spotify_id) DO NOTHING`,
-        [album.id, album.name, album.release_date, album.images[0]?.url || null, artist.id]
+        [
+          album.id,
+          album.name,
+          album.release_date,
+          album.images[0]?.url || null,
+          artist.id,
+        ]
       );
     }
 

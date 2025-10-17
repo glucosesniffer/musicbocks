@@ -5,7 +5,6 @@ import axios from "axios";
 export const AlbumPage: React.FC = () => {
   const { id } = useParams();
   const [albumInfo, setInfo] = useState();
-  const [rating, setRating] = useState(0);
   const effect = useRef(false);
   const [session, setSession] = useState(null);
   useEffect(() => {
@@ -26,12 +25,12 @@ export const AlbumPage: React.FC = () => {
     if (!session) console.log("login first");
     return;
   }
-  const artist_id = albumInfo?.artist_id;
+  const user_id = albumInfo?.user_id; //fix this shit
   const album_id = albumInfo?.id;
-  const addRating = async () => {
+  const addRating = async (rating: number) => {
     await axios.post("http://localhost:5000/review", {
       rating,
-      artist_id,
+      user_id,
       album_id,
     });
   };
@@ -55,7 +54,9 @@ export const AlbumPage: React.FC = () => {
             aria-label="1 star"
             value="1"
             disabled={!session}
-            onChange={(e: any) => setRating(e.target.value)}
+            onChange={async (e: any) => {
+              await addRating(e.target.value);
+            }}
           />
           <input
             type="radio"
@@ -64,7 +65,9 @@ export const AlbumPage: React.FC = () => {
             aria-label="2 star"
             value="2"
             disabled={!session}
-            onChange={(e: any) => setRating(e.target.value)}
+            onChange={async (e: any) => {
+              await addRating(e.target.value);
+            }}
           />
           <input
             type="radio"
@@ -73,7 +76,9 @@ export const AlbumPage: React.FC = () => {
             aria-label="3 star"
             disabled={!session}
             value="3"
-            onChange={(e: any) => setRating(e.target.value)}
+            onChange={async (e: any) => {
+              await addRating(e.target.value);
+            }}
           />
           <input
             type="radio"
@@ -82,7 +87,9 @@ export const AlbumPage: React.FC = () => {
             aria-label="4 star"
             disabled={!session}
             value="4"
-            onChange={(e: any) => setRating(e.target.value)}
+            onChange={async (e: any) => {
+              await addRating(e.target.value);
+            }}
           />
 
           <input
@@ -92,7 +99,9 @@ export const AlbumPage: React.FC = () => {
             aria-label="5 star"
             disabled={!session}
             value="5"
-            onChange={(e: any) => setRating(e.target.value)}
+            onChange={async (e: any) => {
+              await addRating(e.target.value);
+            }}
           />
         </div>
       </div>
