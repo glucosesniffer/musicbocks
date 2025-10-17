@@ -5,10 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 400;
-
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
   text-align: center;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
