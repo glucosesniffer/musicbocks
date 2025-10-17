@@ -5,13 +5,10 @@ import axios from "axios";
 export const Navbar: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [sessionId, setSessionId] = useState();
   const sessionRef = useRef("");
   const userRef = useRef("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-  const [stateId, setStateId] = useState();
-  const [stateUser, setStateUser] = useState();
 
   // console.log(password, username);
   function handleSearch(e: React.FormEvent) {
@@ -94,20 +91,21 @@ export const Navbar: React.FC = () => {
                       fill="none"
                       stroke="currentColor"
                     >
-                      <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
                     </g>
                   </svg>
+
                   <input
                     type="username"
-                    placeholder="mail@site.com"
+                    placeholder="username32"
                     required
                     value={username}
                     onChange={(e: any) => setUsername(e.target.value)}
                   />
                 </label>
                 <div className="validator-hint hidden">
-                  Enter valid email address
+                  Enter Valid Username
                 </div>
                 <label className="input validator mt-5 bg-[#1F1F1F]">
                   <svg

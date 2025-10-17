@@ -10,14 +10,21 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <div className="flex justify-between p-6 w-[950px] mx-auto my-5">
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/search/:query" element={<SearchPage />} />
-          <Route path="/artist/:query" element={<ArtistPage />} />
-          <Route path="/album/:id" element={<AlbumPage />}></Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route
+          path="*"
+          element={
+            <div className="flex justify-between p-6 w-[950px] mx-auto my-5">
+              <Routes>
+                <Route path="/search/:query" element={<SearchPage />} />
+                <Route path="/artist/:query" element={<ArtistPage />} />
+                <Route path="/album/:id" element={<AlbumPage />} />
+              </Routes>
+            </div>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

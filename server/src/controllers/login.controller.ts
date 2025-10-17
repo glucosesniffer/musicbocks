@@ -34,7 +34,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         sessionId: req.sessionID,
       });
     }
-    console.log(req.body);
+    // console.log(req.body);
   } catch (e) {
     res.status(400).json({ success: false, message: e });
   }
