@@ -32,6 +32,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         success: true,
         data: req.session.userName,
         sessionId: req.sessionID,
+        userId: req.session.userId,
       });
     }
     // console.log(req.body);

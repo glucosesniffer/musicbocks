@@ -26,8 +26,8 @@ export const Navbar: React.FC = () => {
       userRef.current = res?.data.data;
       localStorage.setItem("sessionId", sessionRef.current);
       localStorage.setItem("userName", userRef.current);
-      window.location.reload();
-      // console.log(res.data);
+      // window.location.reload();
+      console.log(res.data);
     } catch (e: any) {
       console.log(e.message);
     }
@@ -36,7 +36,7 @@ export const Navbar: React.FC = () => {
     await axios.delete("http://localhost:5000/logout");
     localStorage.removeItem("sessionId");
     localStorage.removeItem("userName");
-    window.location.reload();
+    // window.location.reload();
   }
 
   useEffect(() => {
