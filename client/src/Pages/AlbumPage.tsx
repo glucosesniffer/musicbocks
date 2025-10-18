@@ -7,6 +7,7 @@ export const AlbumPage: React.FC = () => {
   const [albumInfo, setInfo] = useState();
   const effect = useRef(false);
   const [session, setSession] = useState(null);
+  const [rating, setRating] = useState(0);
   useEffect(() => {
     if (effect.current) return;
     effect.current = true;
@@ -16,7 +17,6 @@ export const AlbumPage: React.FC = () => {
       console.log(data);
       setInfo(data);
     };
-
     fetchAlbumfromId();
     const sessionid = localStorage.getItem("sessionId");
     setSession(sessionid);
@@ -28,7 +28,7 @@ export const AlbumPage: React.FC = () => {
   const user_id = localStorage.getItem("userId"); //fix this shit
   const album_id = albumInfo?.id;
   const addRating = async (rating: number) => {
-    await axios.post(
+    const res = await axios.post(
       "http://localhost:5000/review",
       {
         rating,
@@ -37,6 +37,8 @@ export const AlbumPage: React.FC = () => {
       },
       { withCredentials: true }
     );
+    setRating(res.data.data[0]?.rating);
+    console.log(rating);
   };
   // console.log(rating);
   return (
@@ -58,6 +60,7 @@ export const AlbumPage: React.FC = () => {
             aria-label="1 star"
             value="1"
             disabled={!session}
+            checked={Number(albumInfo?.rating) === 2}
             onChange={async (e: any) => {
               await addRating(e.target.value);
             }}
@@ -80,6 +83,7 @@ export const AlbumPage: React.FC = () => {
             aria-label="3 star"
             disabled={!session}
             value="3"
+            checked={Number(albumInfo?.rating) === 3}
             onChange={async (e: any) => {
               await addRating(e.target.value);
             }}
