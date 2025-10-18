@@ -3,6 +3,11 @@ A platform for rating and reviewing your favorite albums from your favorite arti
 
 <img width="1369" height="689" alt="image" src="https://github.com/user-attachments/assets/8370bafd-1a9b-49ef-af4c-a5564e047db6" />
 
+## Tech Stack
+Frontend: React, Tailwind CSS
+Backend: Node/Express
+Database: PostgresQL
+
 # System Design
 This is the initial design I came up for the app, I added some new routes but the core functionality of the app remains the same!
 
