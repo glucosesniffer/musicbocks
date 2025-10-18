@@ -25,14 +25,18 @@ export const AlbumPage: React.FC = () => {
     if (!session) console.log("login first");
     return;
   }
-  const user_id = albumInfo?.user_id; //fix this shit
+  const user_id = localStorage.getItem("userId"); //fix this shit
   const album_id = albumInfo?.id;
   const addRating = async (rating: number) => {
-    await axios.post("http://localhost:5000/review", {
-      rating,
-      user_id,
-      album_id,
-    });
+    await axios.post(
+      "http://localhost:5000/review",
+      {
+        rating,
+        user_id,
+        album_id,
+      },
+      { withCredentials: true }
+    );
   };
   // console.log(rating);
   return (

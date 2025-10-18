@@ -11,12 +11,17 @@ export const addReviews = async (
     user_id,
   }: { review: string; rating: number; album_id: number; user_id: number } =
     req.body;
-  console.log(rating, album_id, user_id);
   try {
-    if (req.session.userId) {
+    if (user_id) {
+      console.log(user_id);
       const result = await pool.query(
-        `INSERT INTO reviews (review, album_id, user_id) 
-                                         VALUES ($1, $2, $3, $4) RETURNING *`,
+        `
+  INSERT INTO reviews (rating, album_id, user_id)
+  VALUES ($1, $2, $3)
+  ON CONFLICT (user_id, album_id)
+  DO UPDATE SET rating = EXCLUDED.rating
+  RETURNING *;
+  `,
         [rating, album_id, user_id]
       );
       res.status(200).json({ success: true, data: result.rows });

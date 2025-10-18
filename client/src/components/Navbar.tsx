@@ -7,6 +7,7 @@ export const Navbar: React.FC = () => {
   const [password, setPassword] = useState("");
   const sessionRef = useRef("");
   const userRef = useRef("");
+  const userIdRef = useRef("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
@@ -24,9 +25,11 @@ export const Navbar: React.FC = () => {
       });
       sessionRef.current = res?.data.sessionId;
       userRef.current = res?.data.data;
+      userIdRef.current = res?.data.userId;
       localStorage.setItem("sessionId", sessionRef.current);
       localStorage.setItem("userName", userRef.current);
-      // window.location.reload();
+      localStorage.setItem("userId", userIdRef.current);
+      window.location.reload();
       console.log(res.data);
     } catch (e: any) {
       console.log(e.message);
@@ -36,7 +39,8 @@ export const Navbar: React.FC = () => {
     await axios.delete("http://localhost:5000/logout");
     localStorage.removeItem("sessionId");
     localStorage.removeItem("userName");
-    // window.location.reload();
+    localStorage.removeItem("userId");
+    window.location.reload();
   }
 
   useEffect(() => {
