@@ -5,9 +5,9 @@ A platform for rating and reviewing your favorite albums from your favorite arti
 
 ## Tech Stack
 
-**Frontend:** React, Tailwind CSS – for a modern, responsive, and highly interactive UI  
-**Backend:** Node.js, Express – for scalable and efficient REST APIs  
-**Database:** PostgreSQL – reliable relational database for managing users, albums, and reviews  
+**Frontend:** React, Tailwind CSS
+**Backend:** Node.js, Express 
+**Database:** PostgreSQL
 
 # System Design
 This is the initial design I came up for the app, I added some new routes but the core functionality of the app remains the same!
