@@ -32,7 +32,10 @@ export const ProfilePage: React.FC = () => {
   const [editRating, setEditRating] = useState<number>(0);
   const [editText, setEditText] = useState<string>("");
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>("");
-  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" | "warning" } | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error" | "info" | "warning";
+  } | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,7 +54,10 @@ export const ProfilePage: React.FC = () => {
       }
     } catch (error: any) {
       if (error.response?.status === 401) {
-        setToast({ message: "Please login to view your profile", type: "error" });
+        setToast({
+          message: "Please login to view your profile",
+          type: "error",
+        });
         setTimeout(() => navigate("/"), 2000);
       }
     }
@@ -67,7 +73,10 @@ export const ProfilePage: React.FC = () => {
       }
     } catch (error: any) {
       if (error.response?.status === 401) {
-        setToast({ message: "Please login to view your profile", type: "error" });
+        setToast({
+          message: "Please login to view your profile",
+          type: "error",
+        });
         setTimeout(() => navigate("/"), 2000);
       } else {
         setToast({ message: "Failed to load reviews", type: "error" });
@@ -77,7 +86,9 @@ export const ProfilePage: React.FC = () => {
     }
   };
 
-  const handleProfilePictureChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfilePictureChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -89,7 +100,7 @@ export const ProfilePage: React.FC = () => {
         const res = await axios.put(
           "http://localhost:5000/profile/picture",
           { profile_picture: base64String },
-          { withCredentials: true }
+          { withCredentials: true },
         );
         if (res.data.success) {
           setProfilePictureUrl(base64String);
@@ -97,7 +108,11 @@ export const ProfilePage: React.FC = () => {
           await fetchProfile();
         }
       } catch (error: any) {
-        setToast({ message: error.response?.data?.message || "Failed to update profile picture", type: "error" });
+        setToast({
+          message:
+            error.response?.data?.message || "Failed to update profile picture",
+          type: "error",
+        });
       }
     };
     reader.readAsDataURL(file);
@@ -124,7 +139,7 @@ export const ProfilePage: React.FC = () => {
           rating: editRating,
           review_text: editText,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       if (res.data.success) {
@@ -133,7 +148,10 @@ export const ProfilePage: React.FC = () => {
         setEditingReview(null);
       }
     } catch (error: any) {
-      setToast({ message: error.response?.data?.message || "Failed to update review", type: "error" });
+      setToast({
+        message: error.response?.data?.message || "Failed to update review",
+        type: "error",
+      });
     }
   };
 
@@ -187,12 +205,18 @@ export const ProfilePage: React.FC = () => {
         <h2 className="text-2xl font-bold mb-6">My Reviews</h2>
         {reviews.length === 0 ? (
           <div className="alert alert-info">
-            <span>You haven't reviewed any albums yet. Start rating albums to see them here!</span>
+            <span>
+              You haven't reviewed any albums yet. Start rating albums to see
+              them here!
+            </span>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6">
             {reviews.map((review) => (
-              <div key={review.review_id} className="card bg-base-200 shadow-xl">
+              <div
+                key={review.review_id}
+                className="card bg-base-200 shadow-xl"
+              >
                 <div className="card-body">
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-shrink-0">
@@ -212,12 +236,18 @@ export const ProfilePage: React.FC = () => {
                       </h2>
                       <p
                         className="text-sm text-base-content/60 cursor-pointer hover:text-primary"
-                        onClick={() => navigate(`/artist/${encodeURIComponent(review.artist_name)}`)}
+                        onClick={() =>
+                          navigate(
+                            `/artist/${encodeURIComponent(review.artist_name)}`,
+                          )
+                        }
                       >
                         by {review.artist_name}
                       </p>
                       {review.year && (
-                        <p className="text-xs text-base-content/50">{review.year}</p>
+                        <p className="text-xs text-base-content/50">
+                          {review.year}
+                        </p>
                       )}
 
                       {editingReview === review.review_id ? (
@@ -279,7 +309,9 @@ export const ProfilePage: React.FC = () => {
                             ))}
                           </div>
                           {review.review_text && (
-                            <p className="text-base-content/80 mt-2">{review.review_text}</p>
+                            <p className="text-base-content/80 mt-2">
+                              {review.review_text}
+                            </p>
                           )}
                           <button
                             className="btn btn-sm btn-outline mt-4"
@@ -300,4 +332,3 @@ export const ProfilePage: React.FC = () => {
     </>
   );
 };
-

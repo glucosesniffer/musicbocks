@@ -5,6 +5,7 @@ import "./index.css";
 import SearchPage from "./Pages/SearchPage";
 import { ArtistPage } from "./Pages/AristPage";
 import { AlbumPage } from "./Pages/AlbumPage";
+import { ProfilePage } from "./Pages/ProfilePage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/search/:query" element={<SearchPage />} />
                 <Route path="/artist/:query" element={<ArtistPage />} />
                 <Route path="/album/:id" element={<AlbumPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
               </Routes>
             </div>
           }

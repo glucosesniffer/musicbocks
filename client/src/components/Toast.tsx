@@ -7,7 +7,12 @@ interface ToastProps {
   duration?: number;
 }
 
-export const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration = 3000 }) => {
+export const Toast: React.FC<ToastProps> = ({
+  message,
+  type,
+  onClose,
+  duration = 3000,
+}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
@@ -22,9 +27,10 @@ export const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration =
     <div className="toast toast-top toast-end z-50">
       <div className={alertClass}>
         <span>{message}</span>
-        <button className="btn btn-sm btn-circle" onClick={onClose}>✕</button>
+        <button className="btn btn-sm btn-circle" onClick={onClose}>
+          ✕
+        </button>
       </div>
     </div>
   );
 };
-
