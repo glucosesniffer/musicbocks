@@ -1,18 +1,23 @@
 import { Request, Response } from "express";
 import pool from "../config/db.js";
 
-export const getUserReviews = async (req: Request, res: Response): Promise<void> => {
+export const getUserReviews = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const user_id = req.session.userId;
-  
+
   if (!user_id) {
-    res.status(401).json({ success: false, message: "Please login to view your profile" });
+    res
+      .status(401)
+      .json({ success: false, message: "Please login to view your profile" });
     return;
   }
 
   try {
     const result = await pool.query(
       `
-      SELECT 
+      SELECT
         r.id as review_id,
         r.rating,
         r.review_text,
@@ -30,7 +35,7 @@ export const getUserReviews = async (req: Request, res: Response): Promise<void>
       WHERE r.user_id = $1
       ORDER BY r.updated_at DESC
       `,
-      [user_id]
+      [user_id],
     );
 
     res.json({ success: true, data: result.rows });
@@ -39,12 +44,17 @@ export const getUserReviews = async (req: Request, res: Response): Promise<void>
   }
 };
 
-export const updateReview = async (req: Request, res: Response): Promise<void> => {
+export const updateReview = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const user_id = req.session.userId;
   const { review_id, rating, review_text } = req.body;
 
   if (!user_id) {
-    res.status(401).json({ success: false, message: "Please login to update reviews" });
+    res
+      .status(401)
+      .json({ success: false, message: "Please login to update reviews" });
     return;
   }
 
@@ -52,31 +62,35 @@ export const updateReview = async (req: Request, res: Response): Promise<void> =
     // Verify the review belongs to the user
     const checkReview = await pool.query(
       "SELECT * FROM reviews WHERE id = $1 AND user_id = $2",
-      [review_id, user_id]
+      [review_id, user_id],
     );
 
     if (checkReview.rows.length === 0) {
-      res.status(403).json({ success: false, message: "Review not found or unauthorized" });
+      res
+        .status(403)
+        .json({ success: false, message: "Review not found or unauthorized" });
       return;
     }
 
     const ratingNum = rating ? Number(rating) : null;
     if (ratingNum && (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5)) {
-      res.status(400).json({ success: false, message: "Rating must be between 1 and 5" });
+      res
+        .status(400)
+        .json({ success: false, message: "Rating must be between 1 and 5" });
       return;
     }
 
     const result = await pool.query(
       `
-      UPDATE reviews 
-      SET 
+      UPDATE reviews
+      SET
         rating = COALESCE($1, rating),
         review_text = COALESCE($2, review_text),
         updated_at = CURRENT_TIMESTAMP
       WHERE id = $3 AND user_id = $4
       RETURNING *
       `,
-      [ratingNum, review_text || null, review_id, user_id]
+      [ratingNum, review_text || null, review_id, user_id],
     );
 
     res.json({ success: true, data: result.rows[0] });
@@ -84,4 +98,3 @@ export const updateReview = async (req: Request, res: Response): Promise<void> =
     res.status(400).json({ success: false, message: e.message });
   }
 };
-

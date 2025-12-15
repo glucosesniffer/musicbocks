@@ -8,15 +8,15 @@ export const albumResponse = async (req: Request, res: Response) => {
   try {
     let artistResult = await pool.query(
       `SELECT * FROM artists WHERE name = $1`,
-      [searchQuery]
+      [searchQuery],
     );
     let artist = artistResult.rows[0];
 
     if (!artist) {
       const spotifyArtist = await axios.get(
         `https://api.spotify.com/v1/search?q=${encodeURIComponent(
-          searchQuery
-        )}&type=artist&limit=1`
+          searchQuery,
+        )}&type=artist&limit=1`,
       );
 
       const foundArtist = spotifyArtist.data.artists.items[0];
@@ -27,11 +27,11 @@ export const albumResponse = async (req: Request, res: Response) => {
       }
 
       const insertArtist = await pool.query(
-        `INSERT INTO artists (name, spotify_id, image) 
-         VALUES ($1, $2, $3) 
+        `INSERT INTO artists (name, spotify_id, image)
+         VALUES ($1, $2, $3)
          ON CONFLICT (spotify_id) DO NOTHING
          RETURNING *`,
-        [foundArtist.name, foundArtist.id, foundArtist.images[0]?.url || null]
+        [foundArtist.name, foundArtist.id, foundArtist.images[0]?.url || null],
       );
 
       artist =
@@ -45,14 +45,16 @@ export const albumResponse = async (req: Request, res: Response) => {
 
     let offset = 0;
     let albums: any[] = [];
+    const limit = 50; // Spotify API max limit per request
+
     while (true) {
       const albumsResponse = await axios.get(
-        `https://api.spotify.com/v1/artists/${artist.spotify_id}/albums?limit=20&offset=${offset}&include_groups=album`
+        `https://api.spotify.com/v1/artists/${artist.spotify_id}/albums?limit=${limit}&offset=${offset}&include_groups=album`,
       );
       const items = albumsResponse.data.items;
-      if (items.length === 0) break;
+      if (!items || items.length === 0) break;
       albums = albums.concat(items);
-      offset += 50;
+      offset += limit;
       if (!albumsResponse.data.next) break;
     }
 
@@ -67,16 +69,24 @@ export const albumResponse = async (req: Request, res: Response) => {
           album.release_date,
           album.images[0]?.url || null,
           artist.id,
-        ]
+        ],
       );
     }
 
     const allAlbums = await pool.query(
       `SELECT * FROM albums WHERE artist_id = $1`,
-      [artist.id]
+      [artist.id],
     );
 
-    res.json(allAlbums.rows);
+    res.json({
+      artist: {
+        id: artist.id,
+        name: artist.name,
+        image: artist.image,
+        genre: artist.genre,
+      },
+      albums: allAlbums.rows,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: (error as Error).message });
   }

@@ -7,36 +7,44 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     req.body;
 
   try {
+    if (!username || !password) {
+      res
+        .status(400)
+        .json({ success: false, data: "Username and password are required" });
+      return;
+    }
+
     const storedPass = await pool.query(
       "SELECT id, username, password FROM users WHERE username = $1",
-      [username]
+      [username],
     );
+
     if (storedPass.rows.length === 0) {
-      res.json({ success: false, data: "username doesnt exist" });
+      res.status(401).json({ success: false, data: "Username does not exist" });
+      return;
     }
+
     const passwordMatch = await bcrypt.compare(
       password,
-      storedPass.rows[0].password
+      storedPass.rows[0].password,
     );
 
-    if (passwordMatch) {
-      req.session.userId = storedPass.rows[0].id;
-      req.session.userName = storedPass.rows[0].username;
-    } else {
-      res.json({ success: false, data: "wrong password" });
+    if (!passwordMatch) {
+      res.status(401).json({ success: false, data: "Wrong password" });
+      return;
     }
 
-    if (req.session.userId) {
-      await pool.query("SELECT * FROM users where id=$1", [req.session.userId]);
-      res.json({
-        success: true,
-        data: req.session.userName,
-        sessionId: req.sessionID,
-        userId: req.session.userId,
-      });
-    }
-    // console.log(req.body);
+    req.session.userId = storedPass.rows[0].id;
+    req.session.userName = storedPass.rows[0].username;
+
+    res.json({
+      success: true,
+      data: req.session.userName,
+      sessionId: req.sessionID,
+      userId: req.session.userId,
+    });
   } catch (e) {
-    res.status(400).json({ success: false, message: e });
+    console.error("Login error:", e);
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

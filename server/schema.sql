@@ -61,4 +61,3 @@ CREATE INDEX IF NOT EXISTS idx_reviews_user_id ON reviews(user_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_album_id ON reviews(album_id);
 CREATE INDEX IF NOT EXISTS idx_artists_spotify_id ON artists(spotify_id);
 CREATE INDEX IF NOT EXISTS idx_albums_spotify_id ON albums(spotify_id);
-
