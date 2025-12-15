@@ -67,7 +67,7 @@ const SearchPage: React.FC = () => {
           {artists.map((artist) => (
             <div
               key={artist.id}
-              className="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow cursor-pointer"
+              className="card bg-[#1d1d1d] shadow-xl hover:shadow-2xl transition-shadow cursor-pointer"
               onClick={() => handleArtistClick(artist.artistName)}
             >
               <figure className="px-6 pt-6">

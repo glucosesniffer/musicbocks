@@ -203,7 +203,7 @@ export const MainPage: React.FC = () => {
           <h2 className="text-2xl font-bold mb-6">Popular Albums this Week</h2>
           {data?.data && data.data.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {data.data.map((album) => (
+              {data.data.slice(0, 5).map((album) => (
                 <div
                   key={album?.id}
                   className="cursor-pointer transform hover:scale-105 transition-all"

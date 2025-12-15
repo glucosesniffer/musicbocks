@@ -294,7 +294,7 @@ export const ProfilePage: React.FC = () => {
                               Cancel
                             </button>
                             <button
-                              className="btn btn-primary btn-sm"
+                              className="btn btn-primary btn-sm shadow-none"
                               onClick={() =>
                                 saveEdit(review.review_id, review.rating)
                               }

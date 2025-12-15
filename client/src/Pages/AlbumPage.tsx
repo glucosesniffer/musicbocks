@@ -43,7 +43,6 @@ export const AlbumPage: React.FC = () => {
         credentials: "include",
       });
       const data = await res.json();
-      console.log(data);
       setInfo(data);
       setReviewText(data.review_text || "");
 
