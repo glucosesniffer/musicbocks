@@ -4,9 +4,8 @@ A platform for rating and reviewing your favorite albums from your favorite arti
 <img width="1369" height="689" alt="image" src="https://github.com/user-attachments/assets/8370bafd-1a9b-49ef-af4c-a5564e047db6" />
 
 ## Tech Stack
-
-**Frontend:** React, Tailwind CSS
-**Backend:** Node.js, Express 
+**Frontend:** React, Tailwind CSS  
+**Backend:** Node.js, Express  
 **Database:** PostgreSQL
 
 # System Design
@@ -20,40 +19,44 @@ This is the initial design I came up for the app, I added some new routes but th
 ## ER Diagram
 <img width="771" height="450" alt="erd" src="https://github.com/user-attachments/assets/c16f6cb8-97af-4f8c-a1ae-52bb6111066e" />
 
-## Endpoints
+## API Endpoints
 
-### GET `/search/:query`
+### Search & Discovery
+
+#### GET `/search/:query`
 Search for artists.  
-**Middleware:** `artistResponse`  
+**Handler:** `artistResponse`  
 **Response:** JSON results or `"no results"` if nothing is found.
 
----
-
-### GET `/artist/:query`
-Get artist information.  
-**Handler:** `albumResponse`  
+#### GET `/`
+Get main page content with featured albums.  
+**Handler:** `mainPage`
 
 ---
 
-### GET `/album/:id`
-Get album information.  
-**Handler:** `albumInfo`  
+### Artist & Album Information
+
+#### GET `/artist/:query`
+Get artist information and albums.  
+**Handler:** `albumResponse`
+
+#### GET `/album/:id`
+Get album information including user's rating and all reviews.  
+**Handler:** `albumInfo`
 
 ---
 
-### POST `/signup`
-Create a new user.  
-**Handler:** `createUsers`  
+### Authentication
 
----
+#### POST `/signup`
+Create a new user account.  
+**Handler:** `createUsers`
 
-### POST `/login`
+#### POST `/login`
 Login an existing user.  
-**Handler:** `loginUser`  
+**Handler:** `loginUser`
 
----
-
-### DELETE `/logout`
+#### DELETE `/logout`
 Logout the current user.  
 Destroys the session and clears the cookie.  
 **Response:** 
@@ -62,3 +65,74 @@ Destroys the session and clears the cookie.
   "success": true,
   "message": "logged out"
 }
+```
+
+---
+
+### Reviews & Ratings
+
+#### POST `/review`
+Add or update a review for an album.  
+**Handler:** `addReviews`  
+**Body:**
+```json
+{
+  "rating": 5,
+  "album_id": 123,
+  "review_text": "Amazing album!"
+}
+```
+
+#### PUT `/review/update`
+Update an existing review.  
+**Handler:** `updateReview`  
+**Body:**
+```json
+{
+  "review_id": 456,
+  "rating": 4,
+  "review_text": "Updated review text"
+}
+```
+
+#### DELETE `/review/:id`
+Delete a review.  
+**Handler:** `deleteReview`  
+**Auth:** Required (user can only delete their own reviews)
+
+---
+
+### User Profile
+
+#### GET `/profile`
+Get current user's profile information.  
+**Handler:** `getUserProfile`  
+**Auth:** Required
+
+#### GET `/profile/reviews`
+Get all reviews by the current user.  
+**Handler:** `getUserReviews`  
+**Auth:** Required
+
+#### PUT `/profile/picture`
+Update user's profile picture.  
+**Handler:** `updateProfilePicture`  
+**Auth:** Required  
+**Body:**
+```json
+{
+  "profile_picture": "base64_encoded_image"
+}
+```
+
+---
+
+### Artist Ratings
+
+#### POST `/artist/rating`
+Add or update a rating for an artist.  
+**Handler:** `addArtistRating`
+
+#### GET `/artist/:id/rating`
+Get rating for a specific artist.  
+**Handler:** `getArtistRating`
