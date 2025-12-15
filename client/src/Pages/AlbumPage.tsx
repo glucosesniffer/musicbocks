@@ -43,6 +43,7 @@ export const AlbumPage: React.FC = () => {
         credentials: "include",
       });
       const data = await res.json();
+      console.log(data);
       setInfo(data);
       setReviewText(data.review_text || "");
 
@@ -184,7 +185,7 @@ export const AlbumPage: React.FC = () => {
             {/* Rating Section */}
             <div
               className="card shadow-xl"
-              style={{ backgroundColor: "#121212" }}
+              style={{ backgroundColor: "#1d1d1d" }}
             >
               <div className="card-body">
                 <h2 className="card-title text-white">Rate this Album</h2>
@@ -197,7 +198,7 @@ export const AlbumPage: React.FC = () => {
                       className="mask mask-star-2"
                       style={{
                         backgroundColor:
-                          currentRating >= starValue ? "#1DB954" : "#4a4a4a",
+                          currentRating >= starValue ? "#fbbf24" : "#4a4a4a",
                       }}
                       aria-label={`${starValue} star`}
                       value={starValue}
@@ -223,12 +224,12 @@ export const AlbumPage: React.FC = () => {
             {/* Review Section */}
             <div
               className="card shadow-xl"
-              style={{ backgroundColor: "#121212" }}
+              style={{ backgroundColor: "#1d1d1d" }}
             >
               <div className="card-body">
                 <h2 className="card-title text-white">Write a Review</h2>
                 <textarea
-                  className="textarea textarea-bordered h-32"
+                  className="textarea textarea-bordered h-32 bg-[#171717]"
                   placeholder={
                     session
                       ? "Share your thoughts about this album..."
@@ -294,7 +295,7 @@ export const AlbumPage: React.FC = () => {
                             style={{
                               backgroundColor:
                                 review.rating >= starValue
-                                  ? "#1DB954"
+                                  ? "#fbbf24"
                                   : "#4a4a4a",
                             }}
                             checked={review.rating === starValue}
@@ -304,7 +305,9 @@ export const AlbumPage: React.FC = () => {
                       </div>
                     </div>
                     {review.review_text && (
-                      <p className="text-white/80 mt-2">{review.review_text}</p>
+                      <p className="text-white/80 mt-2 text-left pl-10">
+                        {review.review_text}
+                      </p>
                     )}
                     <p className="text-xs text-white/50 mt-2">
                       {new Date(review.created_at).toLocaleDateString()}

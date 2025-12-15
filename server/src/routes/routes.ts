@@ -7,6 +7,7 @@ import { addReviews } from "../controllers/add-reviews.controller.js";
 import { loginUser } from "../controllers/login.controller.js";
 import { albumInfo } from "../controllers/album-info.controller.js";
 import { mainPage } from "../controllers/main-page.controller.js";
+import { deleteReview } from "../controllers/delete-review.controller.js";
 import {
   getUserReviews,
   updateReview,
@@ -55,3 +56,4 @@ router.put("/profile/picture", updateProfilePicture);
 router.post("/artist/rating", addArtistRating);
 
 router.get("/artist/:id/rating", getArtistRating);
+router.delete("/review/:id", deleteReview);

@@ -115,7 +115,7 @@ export const ArtistPage: React.FC = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-4">Albums by {query}</h1>
           {artist && (
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex justify-center items-center gap-4 mb-6">
               {artist.image && (
                 <img
                   src={artist.image}
@@ -139,7 +139,7 @@ export const ArtistPage: React.FC = () => {
                           className="mask mask-star-2"
                           style={{
                             backgroundColor:
-                              artistRating >= starValue ? "#1DB954" : "#4a4a4a",
+                              artistRating >= starValue ? "#fbbf24" : "#4a4a4a",
                           }}
                           value={starValue}
                           checked={artistRating === starValue}

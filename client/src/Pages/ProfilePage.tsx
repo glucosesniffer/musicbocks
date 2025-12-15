@@ -29,7 +29,6 @@ export const ProfilePage: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [editingReview, setEditingReview] = useState<number | null>(null);
-  const [editRating, setEditRating] = useState<number>(0);
   const [editText, setEditText] = useState<string>("");
   const [profilePictureUrl, setProfilePictureUrl] = useState<string>("");
   const [toast, setToast] = useState<{
@@ -92,7 +91,6 @@ export const ProfilePage: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Convert to base64 for storage
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64String = reader.result as string;
@@ -120,23 +118,21 @@ export const ProfilePage: React.FC = () => {
 
   const startEdit = (review: Review) => {
     setEditingReview(review.review_id);
-    setEditRating(review.rating);
     setEditText(review.review_text || "");
   };
 
   const cancelEdit = () => {
     setEditingReview(null);
-    setEditRating(0);
     setEditText("");
   };
 
-  const saveEdit = async (reviewId: number) => {
+  const saveEdit = async (reviewId: number, currentRating: number) => {
     try {
       const res = await axios.put(
         "http://localhost:5000/review/update",
         {
           review_id: reviewId,
-          rating: editRating,
+          rating: currentRating,
           review_text: editText,
         },
         { withCredentials: true },
@@ -150,6 +146,25 @@ export const ProfilePage: React.FC = () => {
     } catch (error: any) {
       setToast({
         message: error.response?.data?.message || "Failed to update review",
+        type: "error",
+      });
+    }
+  };
+
+  const deleteReview = async (reviewId: number) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/review/${reviewId}`,
+        { withCredentials: true },
+      );
+
+      if (res.data.success) {
+        setToast({ message: "Review deleted!", type: "success" });
+        await fetchReviews();
+      }
+    } catch (error: any) {
+      setToast({
+        message: error.response?.data?.message || "Failed to delete review",
         type: "error",
       });
     }
@@ -175,7 +190,7 @@ export const ProfilePage: React.FC = () => {
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-6">My Profile</h1>
-          <div className="flex items-center gap-6">
+          <div className="flex justify-center items-center gap-32">
             <div className="avatar">
               <div className="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 {profilePictureUrl ? (
@@ -215,10 +230,10 @@ export const ProfilePage: React.FC = () => {
             {reviews.map((review) => (
               <div
                 key={review.review_id}
-                className="card bg-base-200 shadow-xl"
+                className="card bg-[#1d1d1d] shadow-xl"
               >
                 <div className="card-body">
-                  <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex flex-col md:flex-row gap-4 items-center">
                     <div className="flex-shrink-0">
                       <img
                         src={review.image}
@@ -229,13 +244,13 @@ export const ProfilePage: React.FC = () => {
                     </div>
                     <div className="flex-grow">
                       <h2
-                        className="card-title cursor-pointer hover:text-primary"
+                        className="card-title cursor-pointer hover:text-gray-400 flex justify-center align-center"
                         onClick={() => navigate(`/album/${review.album_id}`)}
                       >
                         {review.title}
                       </h2>
                       <p
-                        className="text-sm text-base-content/60 cursor-pointer hover:text-primary"
+                        className="text-sm text-base-content/60 cursor-pointer hover:text-gray-400"
                         onClick={() =>
                           navigate(
                             `/artist/${encodeURIComponent(review.artist_name)}`,
@@ -252,46 +267,39 @@ export const ProfilePage: React.FC = () => {
 
                       {editingReview === review.review_id ? (
                         <div className="mt-4 space-y-4">
-                          <div>
-                            <label className="label">
-                              <span className="label-text">Rating</span>
-                            </label>
-                            <div className="rating rating-lg">
-                              {[1, 2, 3, 4, 5].map((starValue) => (
-                                <input
-                                  key={starValue}
-                                  type="radio"
-                                  name={`edit-rating-${review.review_id}`}
-                                  className="mask mask-star-2 bg-yellow-400"
-                                  checked={editRating === starValue}
-                                  onChange={() => setEditRating(starValue)}
-                                />
-                              ))}
-                            </div>
+                          <div className="rating rating-sm mb-2">
+                            {[1, 2, 3, 4, 5].map((starValue) => (
+                              <input
+                                key={starValue}
+                                type="radio"
+                                className="mask mask-star-2 bg-yellow-400"
+                                checked={review.rating === starValue}
+                                readOnly
+                              />
+                            ))}
                           </div>
                           <div>
-                            <label className="label">
-                              <span className="label-text">Review</span>
-                            </label>
                             <textarea
-                              className="textarea textarea-bordered w-full h-32"
+                              className="textarea textarea-bordered w-full h-32 bg-[#171717]"
                               value={editText}
                               onChange={(e) => setEditText(e.target.value)}
                               placeholder="Write your review..."
                             />
                           </div>
-                          <div className="flex gap-2">
-                            <button
-                              className="btn btn-primary btn-sm"
-                              onClick={() => saveEdit(review.review_id)}
-                            >
-                              Save
-                            </button>
+                          <div className="flex justify-end gap-2">
                             <button
                               className="btn btn-ghost btn-sm"
                               onClick={cancelEdit}
                             >
                               Cancel
+                            </button>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={() =>
+                                saveEdit(review.review_id, review.rating)
+                              }
+                            >
+                              Save
                             </button>
                           </div>
                         </div>
@@ -313,12 +321,20 @@ export const ProfilePage: React.FC = () => {
                               {review.review_text}
                             </p>
                           )}
-                          <button
-                            className="btn btn-sm btn-outline mt-4"
-                            onClick={() => startEdit(review)}
-                          >
-                            Edit Review
-                          </button>
+                          <div className="flex justify-end gap-2 mt-4">
+                            <button
+                              className="btn btn-sm btn-error hover:text-current btn-outline"
+                              onClick={() => deleteReview(review.review_id)}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              className="btn btn-sm btn-outline"
+                              onClick={() => startEdit(review)}
+                            >
+                              Edit Review
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>
