@@ -1,7 +1,9 @@
 # Musicbocks
 A platform for rating and reviewing your favorite albums from your favorite artists. It's like letterboxd for music.
 
-<img width="1369" height="689" alt="image" src="https://github.com/user-attachments/assets/8370bafd-1a9b-49ef-af4c-a5564e047db6" />
+
+https://github.com/user-attachments/assets/6868a457-0686-4080-9c04-548315521599
+
 
 ## Tech Stack
 **Frontend:** React, Tailwind CSS  
@@ -17,7 +19,15 @@ This is the initial design I came up for the app, I added some new routes but th
 <img width="334" height="519" alt="image" src="https://github.com/user-attachments/assets/ee1cfa29-9a92-410b-be95-f8e7e40fac9d" />
 
 ## ER Diagram
-<img width="771" height="450" alt="erd" src="https://github.com/user-attachments/assets/c16f6cb8-97af-4f8c-a1ae-52bb6111066e" />
+<img width="771" height="45
+
+https://github.com/user-attachments/assets/e61377ba-ffbd-453c-9116-a96365153d95
+
+
+
+https://github.com/user-attachments/assets/2bba1e90-d97a-4049-ab80-f0dfb83bbc18
+
+0" alt="erd" src="https://github.com/user-attachments/assets/c16f6cb8-97af-4f8c-a1ae-52bb6111066e" />
 
 ## API Endpoints
 
